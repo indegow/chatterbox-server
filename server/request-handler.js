@@ -52,7 +52,7 @@ module.exports = function(request, response) {
         
         // let foo = JSON.parse(body);
         
-        utilities.sendResponse(response, null, 201)
+        utilities.sendResponse(response, null, 201);
       });
     },
     'OPTIONS': function(request, response) {
