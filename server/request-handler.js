@@ -15,8 +15,7 @@ var utilities = require('./utilities.js');
 var fs = require('fs');
 
 var messages = [];
-
-module.exports = function(request, response) {
+var requestHandler = function(request, response) {
   // Request and Response come from node's http module.
   //
   // They include information about both the incoming request, such as
@@ -41,14 +40,16 @@ module.exports = function(request, response) {
       
       //request.setEncoding('utf8');
       request.on('data', (chunk) => {
-        console.log(chunk, 'before');
+        //console.log(chunk, 'before');
         chunk = chunk.toString();
-        console.log(chunk, 'after');
+        //console.log(chunk, 'after');
         console.log(JSON.parse(chunk), 'PRASED');
         messages.push(JSON.parse(chunk));
         console.log(messages);
 
-      }).on('end', () => {
+      });
+
+      request.on('end', () => {
         
         // let foo = JSON.parse(body);
         
@@ -76,5 +77,6 @@ module.exports = function(request, response) {
 //need to store data?
 //objectId, roomname, username, text, createdAt
 
+exports.requestHandler = requestHandler;
 
 

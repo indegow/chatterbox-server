@@ -1,8 +1,8 @@
 /* Import node's http module: */
 var http = require('http');
 var url = require('url');
-var handleRequest = require('./request-handler');
-
+var handler = require('./request-handler');
+var utilities = require('./utilities.js');
 
 // Every server needs to listen on a port with a unique number. The
 // standard port for HTTP servers is port 80, but that port is
@@ -17,10 +17,11 @@ var port = 3000;
 var ip = '127.0.0.1';
 
 var routes = {
-  '/classes/messages?order=-createdAt': handleRequest,
-  '/classes/messages': handleRequest,
-  '/favicon.ico': handleRequest,
-  '/': handleRequest
+  '/classes/messages?order=-createdAt': handler.requestHandler,
+  '/classes/messages': handler.requestHandler,
+  '/classes/room': handler.requestHandler,
+  '/favicon.ico': handler.requestHandler,
+  '/': handler.requestHandler
 };
 
 // We use node's http module to create a server.
@@ -35,7 +36,7 @@ var server = http.createServer(function(request, response) {
   if (route) {
     route(request, response);
   } else {
-    // utilities.sendResponse(response, 'Not Found', 404);
+    utilities.sendResponse(response, 'Not Found', 404);
     console.log('route didnt exist', urlParts);
   }
   console.log('Listening on http://' + ip + ':' + port);
